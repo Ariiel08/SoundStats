@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { StatsPage } from './soundstats/pages/StatsPage';
+import { HomePage, StatsPage } from './soundstats/pages';
 import './styles.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <StatsPage />
+    {/* <StatsPage /> */}
+    <HomePage />
   </React.StrictMode>,
 )
