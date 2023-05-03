@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { TokenContext } from "../context";
-
 
 export const requestToken = (redirectUri, clientId) => {
 
@@ -36,6 +33,6 @@ export const requestToken = (redirectUri, clientId) => {
         return JSON.parse(JSON.stringify(data));
 
     }).catch(error => {
-        console.error('Error:', error);
+        throw new Error('Error:', error);
     });
 }

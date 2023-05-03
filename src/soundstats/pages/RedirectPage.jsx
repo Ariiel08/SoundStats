@@ -1,9 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { requestToken, spotifyAppCreds } from "../../spotify-auth";
 import { useContext, useEffect, useRef } from "react";
 import { TokenContext } from "../../context";
+import { useNavigate } from "react-router-dom";
 
 export const RedirectPage = () => {
+
+    const navigate = useNavigate();
 
     const letters = ['L', 'o', 'a', 'd', 'i', 'n', 'g', '.', '.', '.'];
     const { setToken } = useContext( TokenContext );
@@ -20,7 +22,11 @@ export const RedirectPage = () => {
                 requestToken(redirectUri, clientId)
                     .then(token => {
                         setToken(token);
-                    });
+                    })
+                    .catch(err => {
+                        console.log('Error:', err);
+                        navigate('/');
+                    })
             }
         }
 
