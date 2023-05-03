@@ -1,5 +1,9 @@
+import { useContext } from "react";
+import { TokenContext } from "../context";
+
 
 export const requestToken = (redirectUri, clientId) => {
+
     const urlParams = new URLSearchParams(window.location.search);
     let code = urlParams.get('code');
 
@@ -13,7 +17,7 @@ export const requestToken = (redirectUri, clientId) => {
         code_verifier: codeVerifier
     });
 
-    const response = fetch('https://accounts.spotify.com/api/token', {
+    return fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -25,9 +29,13 @@ export const requestToken = (redirectUri, clientId) => {
         }
         return response.json();
     }).then(data => {
-        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('access_token', JSON.stringify(data));
+        localStorage.setItem('actual_time', Date.now().toString());
+        localStorage.setItem('expiration_time', (Date.now() + (50 * 60000)).toString());
+
+        return JSON.parse(JSON.stringify(data));
+
     }).catch(error => {
         console.error('Error:', error);
     });
-
 }

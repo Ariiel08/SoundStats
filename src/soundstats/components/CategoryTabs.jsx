@@ -1,14 +1,26 @@
 import { Tab } from '@headlessui/react';
 import { TopArtistsView, TopGenresView, TopTracksView } from '../views';
+import { useState } from 'react';
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
+const categoryTab = window.localStorage.getItem("category-tab");
+
 export const CategoryTabs = () => {
+    const [selectedIndex, setSelectedIndex] = useState(window.localStorage.getItem("category-tab"))
+
     return (
-        <div className="">
-            <Tab.Group>
+        <div>
+            <Tab.Group 
+                selectedIndex={selectedIndex}
+                onChange={(index) => {
+                    window.localStorage.setItem("category-tab",`${index}`);
+                    window.localStorage.setItem("period-tab",`${0}`);
+                    setSelectedIndex(index);
+                }}
+            >
                 <div className="glass-container px-24 mx-auto mb-5 lg:w-[70%]">
                     <Tab.List className="flex rounded-xl ">
                         <Tab

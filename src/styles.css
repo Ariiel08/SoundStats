@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    min-height: 100%;
+}
+
 body {
     background: linear-gradient(to top, #00685d, #00f249);
 }
@@ -43,4 +47,42 @@ body {
 
 .logo-font {
     font-family: 'Shrikhand', cursive;
+}
+
+.custom-loader {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: 
+      radial-gradient(farthest-side,#16a34a 94%,#0000) top/8px 8px no-repeat,
+      conic-gradient(#0000 30%,#16a34a);
+    -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 8px),#000 0);
+    animation:s3 1s infinite linear;
+}
+  
+@keyframes s3{ 
+    100%{transform: rotate(1turn)}
+}
+
+.waviy {
+    position: relative;
+    -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+}
+
+.waviy span {
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    animation: waviy 1.5s infinite;
+    animation-delay: calc(.1s * var(--i));
+    
+}
+
+@keyframes waviy {
+    0%,40%,100% {
+      transform: translateY(0)
+    }
+        20% {
+        transform: translateY(-20px)
+    }
 }

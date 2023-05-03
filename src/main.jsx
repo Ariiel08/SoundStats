@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HomePage, StatsPage } from './soundstats/pages';
+import { BrowserRouter } from 'react-router-dom';
 import './styles.css';
+import { SoundStatsApp } from './SoundStatsApp';
+import { TokenProvider } from './context/TokenProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <StatsPage /> */}
-    <HomePage />
+    <TokenProvider>
+      <BrowserRouter>
+        <SoundStatsApp />
+      </BrowserRouter>
+    </TokenProvider>
   </React.StrictMode>,
 )

@@ -1,13 +1,25 @@
 import { Tab } from '@headlessui/react';
+import { useState } from 'react';
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(' ');
 }
 
+const periodTab = window.localStorage.getItem("period-tab");
+
 export const PeriodTabs = ({List}) => {
+
+    const [selectedIndex, setSelectedIndex] = useState(window.localStorage.getItem("period-tab"))
+
     return (
         <div className="flex flex-col w-full">
-            <Tab.Group>
+            <Tab.Group
+                selectedIndex={selectedIndex}
+                onChange={(index) => {
+                    window.localStorage.setItem("period-tab",`${index}`);
+                    setSelectedIndex(index);
+                }}
+            >
                 <div className="mx-auto w-[85%] sm:w-[50%]">
                     <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                         <Tab
@@ -55,19 +67,19 @@ export const PeriodTabs = ({List}) => {
                 <Tab.Panels>
                     <Tab.Panel>
                         <div className="flex flex-col items-center mb-10">
-                            <List />
+                            <List timeRange="short_term" />
                         </div>
                     </Tab.Panel>
 
                     <Tab.Panel>
                         <div className="flex flex-col items-center mb-10">
-                            
+                            <List timeRange="medium_term" />
                         </div>
                     </Tab.Panel>
 
                     <Tab.Panel>
                         <div className="flex flex-col items-center mb-10">
-                                
+                            <List timeRange="long_term" />   
                         </div>
                     </Tab.Panel> 
                 </Tab.Panels>
