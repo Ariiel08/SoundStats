@@ -44,6 +44,7 @@ export const TopArtistsList = ({timeRange}) => {
                                 position={index + 1}
                                 title={artist.name} 
                                 img={artist.images[2].url}
+                                url={artist.external_urls.spotify}
                             />
                         ) 
                     :   <div className="flex justify-center">
