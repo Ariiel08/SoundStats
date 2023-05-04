@@ -15,7 +15,7 @@ export const Navbar = () => {
         <header className="glass-nav  py-2">
             <nav className="flex w-[92%] mx-auto">
                 <div className="logo-font text-white text-2xl flex sm:w-full sm:justify-center items-center sm:ml-24">
-                    SoundStats<i className=" mt-1 items-baseline logo-sub text-[12px]">beta</i>
+                <a href="/">SoundStats<i className=" mt-1 items-baseline logo-sub text-[12px]">beta</i></a>
                 </div>
                 
                 <div className="flex ml-auto">

@@ -5,8 +5,6 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-const periodTab = window.localStorage.getItem("period-tab");
-
 export const PeriodTabs = ({List}) => {
 
     const [selectedIndex, setSelectedIndex] = useState(window.localStorage.getItem("period-tab"))
@@ -20,7 +18,7 @@ export const PeriodTabs = ({List}) => {
                     setSelectedIndex(index);
                 }}
             >
-                <div className="mx-auto w-[85%] sm:w-[50%]">
+                <div className="mx-auto w-[95%] sm:w-[50%]">
                     <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                         <Tab
                             className={({ selected }) =>

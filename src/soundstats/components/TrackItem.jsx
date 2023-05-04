@@ -31,26 +31,28 @@ export const TrackItem = ({position, title, artists, album, img, url}) => {
                 </div>
 
                 <div className="hidden sm:flex flex-col ml-auto">
-                    <button 
+                    <a 
+                        href={url} target="_blank"
                         className="px-4 py-2 font-semibold text-sm bg-[#1D8954] hover:bg-[#30bc78] rounded-full shadow-sml"
                     >
-                        <a href={url} target="_blank" className="flex flex-row space-x-3 items-center">
+                        <div className="flex flex-row space-x-3 items-center">
                             <img className="w-7" src={spotifyLogo} />
                             <span>Play on Spotify</span>
-                        </a>
-                    </button>
+                        </div>
+                    </a>
                 </div>
             </div>
 
             <div className="flex sm:hidden flex-row mt-3 mx-6">
-                <button 
+                <a 
+                    href={url} target="_blank"
                     className="px-4 py-2 w-full font-semibold text-sm bg-[#1D8954] hover:bg-[#30bc78] text-white rounded-full shadow-sml"
                 >
-                    <a href={url} target="_blank" className="flex flex-row space-x-3 items-center justify-center">
+                    <div className="flex flex-row space-x-3 items-center justify-center">
                         <img className="w-7" src={spotifyLogo} />
                         <span>Play on Spotify</span>
-                    </a>
-                </button>
+                    </div>
+                </a>
             </div>
         </div>
     )

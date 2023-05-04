@@ -1,7 +1,5 @@
-import { useActionData } from 'react-router-dom';
-import { Navbar } from '../../ui/Navbar';
+import { Navbar } from '../../ui';
 import { CategoryTabs } from '../components';
-import { useEffect } from 'react';
 
 export const StatsPage = () => {
   return (

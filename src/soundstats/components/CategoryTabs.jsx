@@ -19,7 +19,7 @@ export const CategoryTabs = () => {
                     setSelectedIndex(index);
                 }}
             >
-                <div className="glass-container px-24 mx-auto mb-5 md:w-[85%] lg:w-[80%] xl:w-[75%]">
+                <div className="glass-container px-6 sm:px-24 mx-auto mb-5 md:w-[85%] lg:w-[80%] xl:w-[75%]">
                     <Tab.List className="flex rounded-xl ">
                         <Tab
                             className={({ selected }) =>

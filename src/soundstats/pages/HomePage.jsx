@@ -31,10 +31,10 @@ export const HomePage = () => {
 
     return (
         <>
-            <div className="h-[60vh] flex flex-col text-white justify-center items-center p-5">
-                <div className="logo-font text-5xl  sm:text-6xl mb-5 mt-28">
-                    SoundStats<i className="logo-sub text-lg">beta</i>
-                </div>
+            <div className="h-[62vh] flex flex-col text-white justify-center items-center p-5">
+                <h1 className="logo-font text-5xl  sm:text-6xl mb-5 mt-28">
+                    <a href="/">SoundStats<i className="logo-sub text-lg">beta</i></a>
+                </h1>
 
                 <div className="glass-container flex flex-col justify-center items-center w-[90%] sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] px-5 py-20">
                     <div className="flex flex-row">

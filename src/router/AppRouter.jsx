@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom"
-import { HomePage, RedirectPage } from "../soundstats/pages"
+import { AboutPage, HomePage, PrivPolicyPage, RedirectPage } from "../soundstats/pages"
 import { StatsRoutes } from "../soundstats/routes/StatsRoutes";
 import { TokenContext } from "../context/TokenContext";
 import { refresToken } from "../spotify-auth";
@@ -16,10 +16,7 @@ export const AppRouter = () => {
         if (token){
 
             const expirationTime = window.localStorage.getItem('expiration_time');
-            const actualTime = window.localStorage.getItem('actual_time');
             const isExpired = Date.now() > Number(expirationTime);
-
-            console.log(isExpired);
             
             if (isExpired) {
                 setIsTokenValid(false);
@@ -29,21 +26,18 @@ export const AppRouter = () => {
     }, []);
 
     if (!isTokenValid) {
-        console.log("aaa");
-
         refresToken(token.refresh_token)
             .then(data => {
                 setToken(data)
                 setIsTokenValid(true);
+                location.reload();
             });
     }
     
 
     return (
         <>
-
             {getRoutes(tokenState)}
-            
         </>
     )
 }
@@ -53,6 +47,8 @@ function getRoutes(token) {
     if (!!token) return (
         <Routes>
             <Route path="/*" element={<StatsRoutes />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/privacy" element={<PrivPolicyPage />} />
             <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
     );
@@ -61,6 +57,8 @@ function getRoutes(token) {
         <Routes>
             <Route path="redirect" element={<RedirectPage />} />
             <Route path="/*" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/privacy" element={<PrivPolicyPage />} />
             <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
     );
