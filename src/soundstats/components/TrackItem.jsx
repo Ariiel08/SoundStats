@@ -10,7 +10,7 @@ export const TrackItem = ({position, title, artists, album, img, url}) => {
     }, [artists]);
     
     return (
-        <div className="glass-item p-5">
+        <div className="glass-item animate__animated animate__fadeIn p-5">
             <div className="flex flex-row items-center">
             
                 <div className="flex flex-col mr-2 sm:mr-5">
