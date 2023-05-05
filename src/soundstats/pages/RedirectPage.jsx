@@ -13,7 +13,6 @@ export const RedirectPage = () => {
 
     useEffect(() => {
         const storedToken = localStorage.getItem('access_token');
-        console.log(storedToken);
 
         if(!renderAfterCalled.current){
 

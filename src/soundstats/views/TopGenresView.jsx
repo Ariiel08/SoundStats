@@ -7,11 +7,11 @@ export const TopGenresView = () => {
                 <h2 className="text-3xl">Your top <strong><i>genres</i></strong></h2>
             </div>
 
-            {/* <div className="w-full">
+            <div className="w-full">
                 <PeriodTabs List={TopGenresList} />
-            </div> */}
+            </div>
 
-            <span className="text-4xl mb-20 mt-10">Coming Soon</span>
+            {/* <span className="text-4xl mb-20 mt-10">Coming Soon</span> */}
         </div>
     )
 }
