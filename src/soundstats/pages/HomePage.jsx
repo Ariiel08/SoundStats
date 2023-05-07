@@ -11,7 +11,7 @@ export const HomePage = () => {
     const loginSpotify = () => {
         generateCodeChallenge(codeVerifier).then(codeChallenge => {
             let state = generateRandomString(16);
-            let scope = 'user-read-private user-read-email user-top-read';
+            let scope = 'user-read-email user-top-read';
     
             localStorage.setItem('code_verifier', codeVerifier);
     
