@@ -39,8 +39,16 @@ export const Footer = () => {
                                         { letter }
                                     </pre>
                                 ))}
+
+                                <pre className="mt-[3px] ml-1" style={{'--i':14}}>
+                                    <ion-icon name="logo-github" size="small"></ion-icon>
+                                </pre>
+
+                                
                             </div>
                         </a>
+
+                        
                     </div>
 
                     <div className="hidden sm:flex items-center text-[14px]">

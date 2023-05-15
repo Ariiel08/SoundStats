@@ -29,3 +29,8 @@ Then to work with Tailwind and watch changes:
 $ npx tailwindcss -i ./src/styles.css -o ./dist/output.css --watch
 ```
 
+You will need your Spotify credentials in order to use the API, find documentation [here](https://developer.spotify.com/documentation/web-api/tutorials/getting-started). 
+
+In `spotifyAppCreds.js` change `clientId` and `redirectUri` with your creds.
+
+
