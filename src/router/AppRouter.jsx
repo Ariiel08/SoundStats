@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { AboutPage, HomePage, PrivPolicyPage, RedirectPage } from "../soundstats/pages"
 import { StatsRoutes } from "../soundstats/routes/StatsRoutes";
 import { TokenContext } from "../context/TokenContext";
-import { refresToken } from "../spotify-auth";
+import { refreshToken } from "../spotify-auth";
 
 
 export const AppRouter = () => {
@@ -26,7 +26,7 @@ export const AppRouter = () => {
     }, []);
 
     if (!isTokenValid) {
-        refresToken(token.refresh_token)
+        refreshToken(token.refresh_token)
             .then(data => {
                 setToken(data)
                 setIsTokenValid(true);
@@ -56,7 +56,7 @@ function getRoutes(token) {
     return (
         <Routes>
             <Route path="redirect" element={<RedirectPage />} />
-            <Route path="/*" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/privacy" element={<PrivPolicyPage />} />
             <Route path="/*" element={<Navigate to="/" />} />

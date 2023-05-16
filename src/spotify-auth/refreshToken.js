@@ -1,7 +1,7 @@
 
 import { spotifyAppCreds } from './spotifyAppCreds';
 
-export const refresToken = (refreshToken) => {
+export const refreshToken = (refreshToken) => {
 
   const body = new URLSearchParams({
     grant_type: 'refresh_token',
