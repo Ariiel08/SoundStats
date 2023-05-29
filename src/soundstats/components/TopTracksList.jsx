@@ -1,9 +1,13 @@
 import { TrackItem } from "./";
-import { useTopTracks } from "../hooks/useTopTracks";
+import { useTopTracks } from "../hooks";
+import { useContext } from "react";
+import { UserContext } from "../../context";
 
 export const TopTracksList = ({timeRange}) => {
 
-  const topTracks = useTopTracks(timeRange);
+  const { userState, setUser } = useContext( UserContext );
+
+  let topTracks = useTopTracks(timeRange, userState);
 
   const getArtistsString = (artists) => {
     let artistsString = '';
@@ -24,7 +28,7 @@ export const TopTracksList = ({timeRange}) => {
     <div className="glass-container mt-5 p-3 w-[95%] sm:w-[90%] lg:w-[90%] space-y-3">
         
         {
-          (topTracks.length > 0)
+          (topTracks && topTracks.length > 0)
             ? topTracks.map((track, index) => 
                   <TrackItem 
                     key={track.id}
@@ -34,6 +38,7 @@ export const TopTracksList = ({timeRange}) => {
                     album={track.album.name} 
                     img={track.album.images[2].url}
                     url={track.external_urls.spotify}
+                    newPosition={track.newPosition}
                   />
               )
             : <div className="flex justify-center">

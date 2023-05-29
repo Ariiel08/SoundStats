@@ -1,18 +1,13 @@
 import { useContext } from "react";
 import { TokenContext } from "../context";
-import { useProfile } from "../soundstats/hooks/useProfile";
 
+export const Navbar = ({ userProfile }) => {
 
-export const Navbar = () => {
-
-    const { token, setToken } = useContext( TokenContext );
-    const userProfile = useProfile();
-
-    console.log(userProfile);
+    const { setToken } = useContext( TokenContext );
 
     const handleLogout = () => {
         setToken(null);
-        window.localStorage.clear();
+        localStorage.clear();
     }
 
     return (
