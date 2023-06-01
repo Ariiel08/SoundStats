@@ -1,5 +1,6 @@
 import { Tab } from '@headlessui/react';
 import { useState } from 'react';
+import { useToken } from '../hooks';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -7,14 +8,15 @@ function classNames(...classes) {
 
 export const PeriodTabs = ({List}) => {
 
-    const [selectedIndex, setSelectedIndex] = useState(window.localStorage.getItem("period-tab"))
+    const [selectedIndex, setSelectedIndex] = useState(localStorage.getItem("period-tab"))
+    const tokenState = useToken();
 
     return (
         <div className="flex flex-col w-full">
             <Tab.Group
                 selectedIndex={selectedIndex}
                 onChange={(index) => {
-                    window.localStorage.setItem("period-tab",`${index}`);
+                    localStorage.setItem("period-tab",`${index}`);
                     setSelectedIndex(index);
                 }}
             >

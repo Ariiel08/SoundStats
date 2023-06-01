@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import spotifyLogo from '../../assets/spotify_white.png';
 
-export const TrackItem = ({position, title, artists, album, img, url, newPosition}) => {
+export const TrackItem = ({position, title, artists, album, img, url, newPosition, steps}) => {
 
     const newArtistsString = useMemo(() => {
         return (artists.length > 30) 
@@ -9,20 +9,32 @@ export const TrackItem = ({position, title, artists, album, img, url, newPositio
                 : artists;
     }, [artists]);
 
-    let icon = <div className="flex flex-col w-5"></div>;
+    let icon = <div className="flex flex-col w-5 mr-3"></div>;
 
     if (newPosition) {
         if (newPosition === 'above') {
-            icon =  <div className="flex flex-col w-5 text-green-500">
-                        <ion-icon size="small" name="arrow-up-outline"></ion-icon>
+
+            icon =  <div className="tooltip">
+                        <span className="tooltiptext text-sm">Moved up +{steps} positions</span>
+                        <div className="flex flex-col items-center w-5 mr-3 text-green-500">
+                            <ion-icon size="small" name="arrow-up-outline"></ion-icon>
+                            <span className="text-sm">+{steps}</span>
+                        </div>
                     </div>
         } else if (newPosition === 'below') {
-            icon =  <div className="flex flex-col w-5 text-red-500">
-                        <ion-icon size="small" name="arrow-down-outline"></ion-icon>
+            icon =  <div className="tooltip">
+                        <span className="tooltiptext text-sm">Moved down -{steps} positions</span>
+                        <div className="flex flex-col items-center w-5 mr-3 text-red-500">
+                            <ion-icon size="small" name="arrow-down-outline"></ion-icon>
+                            <span className="text-sm">-{steps}</span>
+                        </div>
                     </div>
         } else if (newPosition === 'new') {
-            icon =  <div className="flex flex-col w-5 text-blue-500">
-                        <ion-icon name="ellipse"></ion-icon>
+            icon =  <div className="tooltip">
+                        <span className="tooltiptext">New to the list</span>
+                        <div className="flex flex-col items-center w-5 mr-3 text-blue-500">
+                            <ion-icon name="ellipse"></ion-icon>
+                        </div>
                     </div>
         }
     }
@@ -41,12 +53,12 @@ export const TrackItem = ({position, title, artists, album, img, url, newPositio
                     <img src={img}/>
                 </div>
 
-                <div className="flex flex-col mr-2 sm:mr-5">
+                <div className="flex flex-col w-[20ch] mr-2 sm:mr-5">
                     <span className="font-semibold">{title}</span>
                     <span className="text-sm font-light">{newArtistsString}</span>
                 </div>
 
-                <div className="hidden xl:flex flex-col absolute left-96 justify-center items-center">
+                <div className="hidden xl:flex flex-col w-[20ch] xl:ml-16 justify-center items-start">
                     <span className="font-semibold">{album}</span>
                 </div>
 

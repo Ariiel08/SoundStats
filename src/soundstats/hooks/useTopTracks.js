@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { setVisitTime } from "../helpers";
 
 export const useTopTracks = (timeRange, userId) => {
     
     const [ topTracks, setTopTracks ] = useState([]);
+    const [ isError, setIsError ] = useState(false);
 
     async function getTopTracks() {
         const token = JSON.parse(localStorage.getItem('access_token'));
@@ -15,7 +17,12 @@ export const useTopTracks = (timeRange, userId) => {
                 Authorization: 'Bearer ' + accessToken
             }
         });
-        
+
+        if (!response?.ok) {
+            console.error(`HTTP Response Code: ${response?.status}`);
+            return null;
+        }
+
         const data = await response.json();
         return data;
     }
@@ -34,11 +41,7 @@ export const useTopTracks = (timeRange, userId) => {
                     tracks: ids
                 }
 
-                let visitTime = localStorage.getItem('visit_time');
-
-                if (!visitTime) {
-                    localStorage.setItem('visit_time', Date.now());
-                }
+                setVisitTime(timeRange, 'tracks', false);
 
                 const newDoc = doc(topTracksCollection);
                 await setDoc(newDoc, tracksDoc);
@@ -50,21 +53,16 @@ export const useTopTracks = (timeRange, userId) => {
 
                 docs.forEach(doc => {
                     tracks = doc.data().tracks;
-                    lastVisit = doc.data().lastVisit;
+                    lastVisit = Number(doc.data().lastVisit);
                     docId = doc.id;
                 });
 
-                let visitTime = localStorage.getItem('visit_time');
+                const visitTime = setVisitTime(timeRange, 'tracks', false);
 
-                if (!visitTime) {
-                    localStorage.setItem('visit_time', Date.now());
-                    visitTime = localStorage.getItem('visit_time');
-                }
+                if (Date.now() >= (visitTime + 43200000)) {
+                    setVisitTime(timeRange, 'tracks', true);
 
-                if (Date.now() >= (visitTime + 18000000)) {
-                    localStorage.setItem('visit_time', Date.now());
-
-                    if (Date.now() >= (lastVisit + 86400000)) {
+                    if (Date.now() >= (lastVisit + 432000000)) {
                         const tracksDoc = {
                             lastVisit: Date.now(),
                             tracks: ids
@@ -87,8 +85,10 @@ export const useTopTracks = (timeRange, userId) => {
                     if (index !== idsIndex && idsIndex >= 0) {
                         if (index > idsIndex) {
                             data.items[index].newPosition = 'below';
+                            data.items[index].steps = (index - idsIndex);
                         }else {
                             data.items[index].newPosition = 'above';
+                            data.items[index].steps = (idsIndex - index);
                         }
                     } else if (idsIndex === -1) {
                         data.items[index].newPosition = 'new';
@@ -109,7 +109,11 @@ export const useTopTracks = (timeRange, userId) => {
 
     const getTopTracksCallback = useCallback(() => {
         getTopTracksMemoized.then(data => {
-            setDBTracks(data).then(tracks => setTopTracks(tracks));
+            if (data) {
+                setDBTracks(data).then(tracks => setTopTracks(tracks));
+            } else {
+                setIsError(true);   
+            }
         });
     }, [userId]);
 
@@ -117,5 +121,8 @@ export const useTopTracks = (timeRange, userId) => {
         getTopTracksCallback();
     }, [getTopTracksCallback]);
 
-    return topTracks;
+    return {
+        topTracks,
+        isError
+    };
 }

@@ -10,6 +10,25 @@ body {
     background: linear-gradient(to top, #00685d, #00f249);
 }
 
+body::-webkit-scrollbar {
+    width: 8px;               
+}
+  
+body::-webkit-scrollbar-track {
+    background: #222;  
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #555;    
+    border-radius: 20px;       
+}
+
+@layer components {
+    .item-text {
+        font-size: calc(16px + (20.56 - 14) * ((100vw - 2000px) / (4500 - 1000)));
+    }
+}
+
 .glass-container {
     background: rgba( 3, 0, 0, 0.4 );
     box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
@@ -126,4 +145,50 @@ body {
 
 .home-desc {
     font-size: calc(16px + (20.56 - 14) * ((100vw - 1000px) / (3840 - 1000)));
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block; /* If you want dots under the hoverable text */
+}
+  
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+  
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+  
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+  
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #222 transparent transparent transparent;
+}
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }

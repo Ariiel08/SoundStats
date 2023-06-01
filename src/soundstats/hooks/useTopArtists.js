@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { setVisitTime } from "../helpers";
 
 export const useTopArtists = (timeRange, userId) => {
   
     const [ topArtists, setTopArtists ] = useState([]);
+    const [ isError, setIsError ] = useState(false);
 
     async function getTopArtists() {
         const token = JSON.parse(localStorage.getItem('access_token'));
@@ -15,6 +17,11 @@ export const useTopArtists = (timeRange, userId) => {
                 Authorization: 'Bearer ' + accessToken
             }
         });
+
+        if (!response?.ok) {
+            console.error(`HTTP Response Code: ${response?.status}`);
+            return null;
+        }
         
         const data = await response.json();
         return data;
@@ -35,11 +42,7 @@ export const useTopArtists = (timeRange, userId) => {
                     artists: ids
                 }
 
-                let visitTime = localStorage.getItem('visit_time');
-
-                if (!visitTime) {
-                    localStorage.setItem('visit_time', Date.now());
-                }
+                setVisitTime(timeRange, 'artists', false);
 
                 const newDoc = doc(topArtistsCollection);
                 await setDoc(newDoc, artistsDoc);
@@ -51,21 +54,16 @@ export const useTopArtists = (timeRange, userId) => {
 
                 docs.forEach(doc => {
                     artists = doc.data().artists;
-                    lastVisit = doc.data().lastVisit;
+                    lastVisit = Number(doc.data().lastVisit);
                     docId = doc.id;
                 });
 
-                let visitTime = localStorage.getItem('visit_time');
+                const visitTime = setVisitTime(timeRange, 'artists', false);
 
-                if (!visitTime) {
-                    localStorage.setItem('visit_time', Date.now());
-                    visitTime = localStorage.getItem('visit_time');
-                }
+                if (Date.now() >= (visitTime + 43200000)) {
+                    setVisitTime(timeRange, 'artists', true);
 
-                if (Date.now() >= (visitTime + 18000000)) {
-                    localStorage.setItem('visit_time', Date.now());
-
-                    if (Date.now() >= (lastVisit + 86400000)) {
+                    if (Date.now() >= (lastVisit + 432000000)) {
                         const artistsDoc = {
                             lastVisit: Date.now(),
                             artists: ids
@@ -88,8 +86,10 @@ export const useTopArtists = (timeRange, userId) => {
                     if (index !== idsIndex && idsIndex >= 0) {
                         if (index > idsIndex) {
                             data[index].newPosition = 'below';
+                            data[index].steps = (index - idsIndex);
                         }else {
                             data[index].newPosition = 'above';
+                            data[index].steps = (idsIndex - index);
                         }
                     } else if (idsIndex === -1) {
                         data[index].newPosition = 'new';
@@ -108,7 +108,11 @@ export const useTopArtists = (timeRange, userId) => {
 
     const getTopArtistsCallback = useCallback(() => {
         getTopArtistsMemoized.then(data => {
-            setDBArtists(data.items).then(artists => setTopArtists(artists));
+            if (data) {
+                setDBArtists(data.items).then(artists => setTopArtists(artists));
+            } else {
+                setIsError(true);  
+            }
         });
     }, [userId]);
 
@@ -116,5 +120,8 @@ export const useTopArtists = (timeRange, userId) => {
         getTopArtistsCallback();
     }, [getTopArtistsCallback]);
 
-    return topArtists;
+    return {
+        topArtists,
+        isError
+    };
 }

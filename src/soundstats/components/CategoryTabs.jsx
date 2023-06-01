@@ -7,7 +7,7 @@ function classNames(...classes) {
 }
 
 export const CategoryTabs = () => {
-    const [selectedIndex, setSelectedIndex] = useState(window.localStorage.getItem("category-tab"))
+    const [ selectedIndex, setSelectedIndex ] = useState(localStorage.getItem("category-tab"));
 
     return (
         <div>

@@ -1,6 +1,9 @@
 import { PeriodTabs, TopGenresList } from "../components";
+import { useToken } from "../hooks";
 
 export const TopGenresView = () => {
+    const tokenState = useToken();
+
     return (
         <div className="glass-container flex flex-col w-full md:w-[95%] lg:w-[80%] xl:w-[75%] text-white items-center">
             <div className="p-5">
@@ -10,8 +13,6 @@ export const TopGenresView = () => {
             <div className="w-full">
                 <PeriodTabs List={TopGenresList} />
             </div>
-
-            {/* <span className="text-4xl mb-20 mt-10">Coming Soon</span> */}
         </div>
     )
 }

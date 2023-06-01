@@ -1,5 +1,6 @@
 import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
+import { setVisitTime } from "./setVisitTime";
 
 export const getGenres = async(artists, userId, timeRange) => {
 
@@ -33,7 +34,7 @@ export const getGenres = async(artists, userId, timeRange) => {
 
 const setDBGenres = async(data, userId, timeRange) => {
 
-    if ({userId}) {
+    if (userId) {
 
         const topGenresCollection = collection(FirebaseDB, `${userId}/topgenres/${timeRange}`);
         const docs = await getDocs(topGenresCollection);
@@ -46,11 +47,7 @@ const setDBGenres = async(data, userId, timeRange) => {
                 genres
             }
 
-            let visitTime = localStorage.getItem('visit_time');
-
-            if (!visitTime) {
-                localStorage.setItem('visit_time', Date.now());
-            }
+            setVisitTime(timeRange, 'genres', false);
 
             const newDoc = doc(topGenresCollection);
             await setDoc(newDoc, genresDoc);
@@ -62,19 +59,14 @@ const setDBGenres = async(data, userId, timeRange) => {
 
             docs.forEach(doc => {
                 genresFromDB = doc.data().genres;
-                lastVisit = doc.data().lastVisit;
+                lastVisit = Number(doc.data().lastVisit);
                 docId = doc.id;
             });
 
-            let visitTime = localStorage.getItem('visit_time');
-
-            if (!visitTime) {
-                localStorage.setItem('visit_time', Date.now());
-                visitTime = localStorage.getItem('visit_time');
-            }
+            const visitTime = setVisitTime(timeRange, 'genres', false);
 
             if (Date.now() >= (visitTime + 18000000)) {
-                localStorage.setItem('visit_time', Date.now());
+                setVisitTime(timeRange, 'genres', true);
 
                 if (Date.now() >= (lastVisit + 86400000)) {
                     const genresDoc = {
@@ -99,8 +91,10 @@ const setDBGenres = async(data, userId, timeRange) => {
                 if (index !== genresDBIndex && genresDBIndex >= 0) {
                     if (index > genresDBIndex) {
                         data[index][2] = 'below';
+                        data[index][3] = (index - genresDBIndex);
                     }else {
                         data[index][2] = 'above';
+                        data[index][3] = (genresDBIndex - index);
                     }
                 } else if (genresDBIndex === -1) {
                     data[index][2] = 'new';

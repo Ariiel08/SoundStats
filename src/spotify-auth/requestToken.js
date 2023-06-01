@@ -27,7 +27,6 @@ export const requestToken = (redirectUri, clientId) => {
         return response.json();
     }).then(data => {
         localStorage.setItem('access_token', JSON.stringify(data));
-        localStorage.setItem('actual_time', Date.now().toString());
         localStorage.setItem('expiration_time', (Date.now() + (50 * 60000)).toString());
 
         return JSON.parse(JSON.stringify(data));
