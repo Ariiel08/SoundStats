@@ -18,25 +18,27 @@ export const useToken = () => {
             
             if (isExpired) {
                 setIsTokenValid(false);
+
+                if (!isTokenValid) {
+                    console.log(isTokenValid);
+                    refreshToken(token?.refresh_token)
+                        .then(data => {
+                            if (data) {
+                                setToken(data);
+                                setIsTokenValid(true);
+                                //location.reload();
+                            } else {
+                                setToken(data);
+                                navigate('/session-expired');
+                            }
+                        });
+                }
             }
         }
         
-    }, []);
+    }, [isTokenValid]);
 
-    if (!isTokenValid) {
-        refreshToken(token.refresh_token)
-            .then(data => {
-                console.log(data);
-
-                if (data) {
-                    setToken(data)
-                    setIsTokenValid(true);
-                    location.reload();
-                } else {
-                    navigate('/session-expired');
-                }
-            });
-    }
+    
 
     return tokenState;
 }

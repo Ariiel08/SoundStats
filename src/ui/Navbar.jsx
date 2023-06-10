@@ -19,7 +19,7 @@ export const Navbar = ({ userProfile }) => {
             <nav className="flex w-[92%] mx-auto">
 
                 {
-                    (userProfile) ? 
+                    (userProfile && !userProfile.error) ? 
                         <>
                             <div className="sm:flex hidden">
                                 <a 
